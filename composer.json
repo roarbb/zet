@@ -1,6 +1,7 @@
 {
     "name": "roarbb/zet",
     "type": "library",
+    "version": "1.0",
     "description": "Zet PHP Framework experiment",
     "keywords": ["framework", "experiment"],
     "license": "MIT",
