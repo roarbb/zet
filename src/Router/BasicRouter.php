@@ -37,7 +37,7 @@ class BasicRouter implements Router
                 $this->checkCalledControllerMethod($fullControllerName, $controllerMethod);
 
                 $controller = new $fullControllerName($configurator);
-                $this->injectDependecies($controller, $fullControllerName, $request);
+                $this->injectDependecies($controller, $fullControllerName, $request, $configurator);
 
                 $controller->$controllerMethod();
                 exit;
@@ -85,7 +85,7 @@ class BasicRouter implements Router
         call_user_func(array($controllerNamespace . $errorController, 'notFound'));
     }
 
-    private function injectDependecies($controller, $fullControllerName, Request $request)
+    private function injectDependecies($controller, $fullControllerName, Request $request, Configurator $configurator)
     {
         if (!method_exists($fullControllerName, 'inject')) {
             return;
@@ -100,6 +100,11 @@ class BasicRouter implements Router
 
             if($param->getClass()->name === $request->name()) {
                 $classesToInject[] = $request;
+                continue;
+            }
+
+            if($param->getClass()->name === "Zet\\Configurator") {
+                $classesToInject[] = $configurator;
                 continue;
             }
 
